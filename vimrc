@@ -36,7 +36,7 @@ endif
 " Syntastic plugin
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
-nmap <f5> :Errors<cr>
+nmap <f5> :ToggleErrors<cr>
 set statusline=%F%m%r%h%w\ [ff=%{&ff}]\ %#warningmsg#\ %{SyntasticStatuslineFlag()}\ %*
 set laststatus=2
 
