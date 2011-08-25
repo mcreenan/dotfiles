@@ -69,6 +69,11 @@ set laststatus=2
 source $VIMRUNTIME/macros/matchit.vim
 set tags=tags;/
 
+" Command-T
+noremap <leader>o <Esc>:CommandT<CR>
+noremap <leader>O <Esc>:CommandTFlush<CR>
+noremap <leader>m <Esc>:CommandTBuffer<CR>
+
 """"""""""""""""""""""""""
 " File specific settings "
 """"""""""""""""""""""""""
