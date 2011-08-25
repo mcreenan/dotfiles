@@ -1,0 +1,4 @@
+# vim:ft=sh
+
+alias ll="/bin/ls -ahl --color=auto"
+alias ls="/bin/ls --color=auto"
