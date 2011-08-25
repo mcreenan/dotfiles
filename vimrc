@@ -1,3 +1,5 @@
+call pathogen#infect()
+
 "
 let mapleader=","
 nmap <leader>s :source $MYVIMRC
