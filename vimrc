@@ -6,6 +6,14 @@ call pathogen#infect()
 
 " Leader!
 let mapleader = ','
+nmap <leader>q :q<cr>
+
+" Auto reload vimrc when saved
+autocmd bufwritepost vimrc source ~/.vimrc
+
+" Better pasting behavior
+set nopaste
+set pastetoggle=<f12>
 
 set encoding=utf8
 set modeline
@@ -73,6 +81,11 @@ set tags=tags;/
 noremap <leader>o <Esc>:CommandT<CR>
 noremap <leader>O <Esc>:CommandTFlush<CR>
 noremap <leader>m <Esc>:CommandTBuffer<CR>
+let g:CommandTMatchWindowAtTop = 1
+
+" Tagbar
+let g:tagbar_usearrows = 1
+nnoremap <leader>l :TagbarToggle<CR>
 
 """"""""""""""""""""""""""
 " File specific settings "
