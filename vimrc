@@ -1,3 +1,4 @@
+"
 let mapleader=","
 nmap <leader>s :source $MYVIMRC
 nmap <leader>v :e $MYVIMRC
@@ -15,7 +16,7 @@ imap <C-t> <Esc>:tabnew <CR>i
 " Meh, backup stuff
 set nobackup
 set nowritebackup
-set directory=/home/mcreenan/.vimswap
+set directory=$HOME/.vimswap
 
 " Code folding
 autocmd FileType php setlocal foldmethod=syntax" OmniCompletefiletype plugin on
