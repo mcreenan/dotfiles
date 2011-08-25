@@ -1,4 +1,8 @@
 # vim:ft=sh
 
-alias ll="/bin/ls -ahl --color=auto"
-alias ls="/bin/ls --color=auto"
+# Re-aliasing of system commands
+alias ls='ls --color'
+alias tree='tree -C'
+alias ll='ls -ahlb --color'
+alias less='less -x4 -R -N'
+alias grep="grep --color"
