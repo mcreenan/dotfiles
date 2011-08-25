@@ -14,7 +14,6 @@ set t_Co=256
 export TERM=putty-256color
 
 # Prompt
-echo $PSCOLOR
 if [ ! -n "$PSCOLOR" ]; then export PSCOLOR=28; fi
 if [ ! -n "$PSHOST" ]; then export PSHOST="\h"; fi
 export PS0='%{git> %b %c %u %f %t%} '
