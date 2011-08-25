@@ -1,5 +1,11 @@
+" Make sure syntax highlighting is enabled.. OR ELSE
+syntax on
+
 " Enable pathogen bundles (see bundles/ directory)
 call pathogen#infect()
+
+" Leader!
+let mapleader = ','
 
 set encoding=utf8
 set modeline
@@ -23,15 +29,12 @@ set listchars=tab:» ,trail:-,extends:>,precedes:<
 colorscheme zephyr
 
 " Make it easier to edit/source vimrc
-let mapleader=","
 nmap <leader>s :source $MYVIMRC
 nmap <leader>v :e $MYVIMRC
 
 " Tabs (the wanna-be buffers, not the character)
 nmap tp :tabprevious<CR>
 nmap tn :tabnext<CR>
-nmap <C-t> :tabnew <CR>
-imap <C-t> <Esc>:tabnew <CR>i
 
 " Backup/swap settings
 set nobackup

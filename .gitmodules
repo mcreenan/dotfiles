@@ -4,3 +4,6 @@
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = git://github.com/mcreenan/syntastic.git
+[submodule "vim/bundle/easymotion"]
+	path = vim/bundle/easymotion
+	url = git://github.com/Lokaltog/vim-easymotion.git
