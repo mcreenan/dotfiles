@@ -99,6 +99,9 @@ exec "hi htmlH6         cterm=BOLD   ctermfg=245   ctermbg=NONE"
 " Begin zephyr modifications "
 """"""""""""""""""""""""""""""
 
+" Column separator
+hi ColorColumn ctermbg=234
+
 " Check for extra whitespace
 hi WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
