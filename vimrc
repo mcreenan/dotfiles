@@ -15,6 +15,7 @@ autocmd bufwritepost vimrc source ~/.vimrc
 set nopaste
 set pastetoggle=<f12>
 
+set backspace=2
 set encoding=utf8
 set modeline
 set gdefault
@@ -70,7 +71,7 @@ endif
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 nmap <f5> :ToggleErrors<cr>
-set statusline=%F%m%r%h%w\ [ff=%{&ff}]\ %#warningmsg#\ %{SyntasticStatuslineFlag()}\ %*\ %{fugitive#statusline()}
+set statusline=%F%m%r%h%w\ [ff=%{&ff}]\ %#warningmsg#%*\ %=%#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
 
 " Tags
