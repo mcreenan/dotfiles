@@ -16,6 +16,8 @@ set nopaste
 set pastetoggle=<f12>
 
 set backspace=2
+set textwidth=80
+set colorcolumn=+1
 set encoding=utf8
 set modeline
 set gdefault
@@ -51,8 +53,8 @@ set nowritebackup
 set directory=$HOME/.vimswap
 
 " PHP Syntax plugin settings
-let php_sql_query=1
-let php_htmlInStrings=1
+let php_sql_query=0
+let php_htmlInStrings=0
 let g:php_noShortTags = 1
 "let g:php_smart_members = 1
 "let g:php_alt_properties = 1
@@ -71,7 +73,7 @@ endif
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 nmap <f5> :ToggleErrors<cr>
-set statusline=%F%m%r%h%w\ [ff=%{&ff}]\ %#warningmsg#%*\ %=%#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
+set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
 
 " Tags

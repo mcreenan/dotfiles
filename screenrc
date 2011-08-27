@@ -1,0 +1,27 @@
+startup_message off
+defutf8 on
+defscrollback 5000
+vbell off
+altscreen on
+shell bash
+shelltitle "$ |bash"
+
+# Mousewheel support
+termcapinfo xterm* ti@:te@
+
+# allow bold colors - necessary for some reason
+attrcolor b ".I"
+# tell screen how to set colors. AB = background, AF=foreground
+termcapinfo xterm* 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on"
+
+#Note that the %<num>G and %<num>B tokens are only possible through my 256 color patch (github.com/shawncplus/patches)
+hardstatus alwayslastline "%{=b}%${PSCOLOR}B%16G %H %{-b}%236B%250G %= %?%-Lw%?%{=b w}%240B%230G%t%{-b}%>%250G%236B%?%?%?%+Lw%?%?%>%= %{=b}%117B%23G %c "
+
+
+# Default screens
+screen -t shell       0
+screen -t code        1
+screen -t database    2
+screen -t qa/ci       4
