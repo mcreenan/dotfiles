@@ -16,8 +16,7 @@ set nopaste
 set pastetoggle=<f12>
 
 set backspace=2
-set textwidth=80
-set colorcolumn=+1
+set textwidth=0
 set encoding=utf8
 set modeline
 set gdefault
@@ -93,8 +92,17 @@ nnoremap <leader>l :TagbarToggle<CR>
 """"""""""""""""""""""""""
 " File specific settings "
 """"""""""""""""""""""""""
-autocmd FileType php set keywordprg=~/bin/php_doc
-autocmd FileType perl set expandtab
+autocmd FileType php setlocal keywordprg=~/bin/php_doc
+autocmd FileType tt2html,smarty setlocal sw=2
+autocmd FileType tt2html,smarty setlocal tabstop=2
+autocmd FileType css setlocal textwidth=0
+autocmd FileType perl setlocal sw=4
+autocmd FileType perl setlocal expandtab
+autocmd FileType perl setlocal textwidth=80
+autocmd FileType perl setlocal colorcolumn=+1
+
+" Register new file types
+autocmd BufRead,BufNewfile *.tt set filetype=tt2html
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-P> :call <SID>SynStack()<CR>
