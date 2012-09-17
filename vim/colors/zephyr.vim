@@ -129,7 +129,7 @@ else
 endif
 
 " Whitespace
-hi SpecialKey ctermfg=233
+hi SpecialKey ctermfg=238
 hi NonText ctermfg=232
 
 hi Define ctermfg=68  ctermbg=none  cterm=bold

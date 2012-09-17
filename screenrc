@@ -21,7 +21,6 @@ hardstatus alwayslastline "%{=b}%${PSCOLOR}B%16G %H %{-b}%236B%250G %= %?%-Lw%?%
 
 
 # Default screens
-screen -t shell       0
-screen -t code        1
-screen -t database    2
-screen -t qa/ci       4
+screen -t shell    0
+screen -t code     1
+screen -t database 2
