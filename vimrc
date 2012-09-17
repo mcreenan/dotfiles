@@ -18,6 +18,8 @@ set nopaste
 set pastetoggle=<f12>
 
 set shortmess=atI
+set backspace=2
+set textwidth=0
 set encoding=utf8
 set modeline
 set gdefault
@@ -81,7 +83,6 @@ endif
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 nmap <f5> :ToggleErrors<cr>
-"set statusline="%F%m%r%h%w\ [ff=%{&ff}]\ %#warningmsg#\ %{SyntasticStatuslineFlag()}\ %*  %{fugitive#statusline()}"
 set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
 
@@ -110,6 +111,17 @@ autocmd FileType perl setlocal colorcolumn=+1
 autocmd FileType yaml setlocal expandtab
 autocmd FileType yaml setlocal sw=2
 autocmd FileType yaml setlocal ts=2
+autocmd FileType php setlocal keywordprg=~/bin/php_doc
+autocmd FileType tt2html,smarty setlocal sw=2
+autocmd FileType tt2html,smarty setlocal tabstop=2
+autocmd FileType css setlocal textwidth=0
+autocmd FileType perl setlocal sw=4
+autocmd FileType perl setlocal expandtab
+autocmd FileType perl setlocal textwidth=80
+autocmd FileType perl setlocal colorcolumn=+1
+
+" Register new file types
+autocmd BufRead,BufNewfile *.tt set filetype=tt2html
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-P> :call <SID>SynStack()<CR>

@@ -22,3 +22,6 @@
 [submodule "vim/bundle/puppet-syntax-highlighting"]
 	path = vim/bundle/puppet-syntax-highlighting
 	url = git://github.com/vim-scripts/Puppet-Syntax-Highlighting.git
+[submodule "vim/bundle/vim-perl"]
+	path = vim/bundle/vim-perl
+	url = git://github.com/petdance/vim-perl.git
