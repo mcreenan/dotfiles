@@ -19,3 +19,6 @@
 [submodule "vim/bundle/vim-perl"]
 	path = vim/bundle/vim-perl
 	url = git://github.com/petdance/vim-perl.git
+[submodule "vim/bundle/powerline"]
+	path = vim/bundle/powerline
+	url = git://github.com/Lokaltog/vim-powerline.git

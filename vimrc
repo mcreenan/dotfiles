@@ -53,6 +53,7 @@ set directory=$HOME/.vimswap
 
 " PHP Syntax plugin settings
 let php_sql_query=0
+let php_html_in_strings=0
 let php_htmlInStrings=0
 let g:php_noShortTags = 1
 "let g:php_smart_members = 1
@@ -72,7 +73,7 @@ endif
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 nmap <f5> :ToggleErrors<cr>
-set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
+"set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
 
 " Tags
@@ -93,12 +94,12 @@ nnoremap <leader>l :TagbarToggle<CR>
 " File specific settings "
 """"""""""""""""""""""""""
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
-autocmd FileType tt2html,smarty setlocal sw=2
-autocmd FileType tt2html,smarty setlocal tabstop=2
+autocmd FileType tt2html,smarty,yaml setlocal sw=2
+autocmd FileType tt2html,smarty,yaml setlocal tabstop=2
 autocmd FileType css setlocal textwidth=0
 autocmd FileType perl setlocal sw=4
-autocmd FileType perl setlocal expandtab
-autocmd FileType perl setlocal textwidth=80
+autocmd FileType perl,yaml setlocal expandtab
+autocmd FileType perl setlocal textwidth=120
 autocmd FileType perl setlocal colorcolumn=+1
 
 " Register new file types
