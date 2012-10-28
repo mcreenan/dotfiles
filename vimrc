@@ -17,7 +17,8 @@ set pastetoggle=<f12>
 
 set backspace=2
 set textwidth=0
-set encoding=utf8
+set encoding=utf-8
+set t_Co=256
 set modeline
 set gdefault
 set wildmode=longest,list
@@ -73,7 +74,8 @@ endif
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 nmap <f5> :ToggleErrors<cr>
-"set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
+
+set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
 
 " Tags
