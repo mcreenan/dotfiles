@@ -1,6 +1,8 @@
 " Make sure syntax highlighting is enabled.. OR ELSE
 syntax on
 
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
 " Enable pathogen bundles (see bundles/ directory)
 call pathogen#infect()
 
@@ -15,6 +17,7 @@ autocmd bufwritepost vimrc source ~/.vimrc
 set nopaste
 set pastetoggle=<f12>
 
+set shortmess=atI
 set backspace=2
 set textwidth=0
 set encoding=utf-8
@@ -35,6 +38,14 @@ set autoindent   " Auto indentation
 set smartindent  " Please god let this not get in my way
 set list
 set listchars=tab:» ,trail:-,extends:>,precedes:<
+
+" Don't clobber unnamed register when pasting in visual mode
+vnoremap p pgvy
+
+" Clean up quickfix window
+au Filetype qf setl nolist
+au Filetype qf setl nocursorline
+au Filetype qf setl nowrap
 
 " Set default color scheme
 colorscheme zephyr
@@ -95,6 +106,14 @@ nnoremap <leader>l :TagbarToggle<CR>
 """"""""""""""""""""""""""
 " File specific settings "
 """"""""""""""""""""""""""
+autocmd FileType php noremap \L gUiwdiwi$this->L('<ESC>pa')<ESC>
+autocmd FileType php setlocal keywordprg=~/bin/php_doc
+autocmd FileType perl setlocal noexpandtab
+autocmd FileType perl setlocal textwidth=120
+autocmd FileType perl setlocal colorcolumn=+1
+autocmd FileType yaml setlocal expandtab
+autocmd FileType yaml setlocal sw=2
+autocmd FileType yaml setlocal ts=2
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
 autocmd FileType tt2html,smarty,yaml setlocal sw=2
 autocmd FileType tt2html,smarty,yaml setlocal tabstop=2
