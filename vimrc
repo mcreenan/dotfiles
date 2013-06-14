@@ -100,6 +100,9 @@ let g:CommandTMatchWindowAtTop = 1
 let g:tagbar_usearrows = 1
 nnoremap <leader>l :TagbarToggle<CR>
 
+" Switch
+nnoremap - :Switch<CR>
+
 """"""""""""""""""""""""""
 " File specific settings "
 """"""""""""""""""""""""""
@@ -107,7 +110,6 @@ autocmd FileType php noremap \L gUiwdiwi$this->L('<ESC>pa')<ESC>
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
 autocmd FileType perl setlocal noexpandtab
 autocmd FileType perl setlocal textwidth=120
-autocmd FileType perl setlocal colorcolumn=+1
 autocmd FileType yaml setlocal expandtab
 autocmd FileType yaml setlocal sw=2
 autocmd FileType yaml setlocal ts=2
@@ -117,8 +119,6 @@ autocmd FileType tt2html,smarty setlocal tabstop=2
 autocmd FileType css setlocal textwidth=0
 autocmd FileType perl setlocal sw=4
 autocmd FileType perl setlocal expandtab
-autocmd FileType perl setlocal textwidth=80
-autocmd FileType perl setlocal colorcolumn=+1
 
 " Register new file types
 autocmd BufRead,BufNewfile *.tt set filetype=tt2html
@@ -138,3 +138,5 @@ endfunc
 
 " Comment abbreviations
 iab firephp require_once'/home/mcreenan/firephp';$fp=FirePHP::getInstance();$fp->log();<ESC>T(i
+iab flog require_once'/home/mcreenan/firelogger.php';flog();<ESC>T(i
+iab debug $fh=fopen('/home/mcreenan/debug','a');fwrite($fh, var_export(, true));fclose($fh);<ESC>T,hi

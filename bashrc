@@ -4,7 +4,7 @@
 [ -f ~/.bash/local ] && . ~/.bash/local
 
 # Paths
-export PATH=/usr/sbin:/sbin:$HOME/bin:$HOME/bin/git:$HOME/pear:$HOME/sys/bin:$PATH
+export PATH=/usr/sbin:/sbin:$HOME/bin:$HOME/bin/git:$HOME/pear:$HOME/sys/bin:$HOME/bin/swd:/var/lib/gems/1.8/bin:$PATH
 
 # Editor
 export EDITOR='vim'

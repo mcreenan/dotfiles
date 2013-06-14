@@ -25,3 +25,6 @@
 [submodule "vim/bundle/vim-perl"]
 	path = vim/bundle/vim-perl
 	url = git://github.com/petdance/vim-perl.git
+[submodule "vim/bundle/switch"]
+	path = vim/bundle/switch
+	url = https://github.com/AndrewRadev/switch.vim

@@ -108,7 +108,7 @@ match WhitespaceEOL /\s\+$/
 match WhitespaceEOL /^(\ \+)[^\*]/
 
 " Highlight whitespace at beginning
-hi WhitespaceBOL ctermfg=233
+hi WhitespaceBOL ctermfg=236
 match WhitespaceBOL /^\t\+\ */
 
 " Tabs (not the whitespace kind)
