@@ -1,6 +1,7 @@
 " Make sure syntax highlighting is enabled.. OR ELSE
 syntax on
 
+set term=xterm-256color
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 " Enable pathogen bundles (see bundles/ directory)
@@ -141,3 +142,4 @@ endfunc
 
 " Comment abbreviations
 iab firephp require_once'/home/mcreenan/firephp';$fp=FirePHP::getInstance();$fp->log();<ESC>T(i
+iab flog require_once'/home/mcreenan/firelogger.php';flog( );<ESC>T(i

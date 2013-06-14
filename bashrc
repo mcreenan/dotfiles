@@ -26,14 +26,14 @@ if [ ! -n "$PSHOST" ]; then export PSHOST="\h"; fi
 #MYPROMPT+="\[\e[0m\]"
 #MYPROMPT+="\[\e[48;5;0m\]\[\e[38;5;250m\]"
 #export PS1=$MYPROMPT
-#export PS1="\[\e[38;5;${PSCOLOR}m\]$PSHOST\[\e[38;5;231m\]:\[\e[38;5;240m\]\w \[\e[38;5;231m\]\r\n\[\e[38;5;231m\]#\[\e[0m\] "
+export PS1="\n\[\e[38;5;${PSCOLOR}m\]$PSHOST\[\e[38;5;231m\]:\[\e[38;5;240m\]\w \[\e[38;5;231m\]\r\n\[\e[38;5;231m\]#\[\e[0m\] "
 eval $(dircolors -b ~/.dircolors)
 
-function _update_ps1()
-{
-	export PS1="$(~/.bash/powerline-bash.py $?)"
-}
-export PROMPT_COMMAND="_update_ps1"
+#function _update_ps1()
+#{
+#	export PS1="$(~/.bash/powerline-bash.py $?)"
+#}
+#export PROMPT_COMMAND="_update_ps1"
 
 # Aliases
 [ -f ~/.bash/aliases ] && . ~/.bash/aliases
