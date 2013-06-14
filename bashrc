@@ -16,8 +16,24 @@ export TERM=putty-256color
 # Prompt
 if [ ! -n "$PSCOLOR" ]; then export PSCOLOR=28; fi
 if [ ! -n "$PSHOST" ]; then export PSHOST="\h"; fi
-export PS0='%{git> %b %c %u %f %t%} '
-export PS1="\[\e[38;5;${PSCOLOR}m\]$PSHOST\[\e[38;5;231m\]:\[\e[38;5;240m\]\w \[\e[38;5;231m\]\r\n\[\e[38;5;231m\]#\[\e[0m\] "
+#C_SEP="⮀"
+#C_SEP_THIN="⮁"
+#export PS0='%{git> %b %c %u %f %t%} '
+#MYPROMPT="\[\e[48;5;${PSCOLOR}m\e[38;5;255m\] ${PSHOST} "
+#MYPROMPT+="\[\e[48;5;234m\e[38;5;${PSCOLOR}m\]${C_SEP} "
+#MYPROMPT+="\[\e[48;5;234m\]\[\e[38;5;255m\]\w "
+#MYPROMPT+="\n\[\e[48;5;0m\]\[\e[38;5;255m\]$ "
+#MYPROMPT+="\[\e[0m\]"
+#MYPROMPT+="\[\e[48;5;0m\]\[\e[38;5;250m\]"
+#export PS1=$MYPROMPT
+export PS1="\n\[\e[38;5;${PSCOLOR}m\]$PSHOST\[\e[38;5;231m\]:\[\e[38;5;240m\]\w \[\e[38;5;231m\]\r\n\[\e[38;5;231m\]#\[\e[0m\] "
+eval $(dircolors -b ~/.dircolors)
+
+#function _update_ps1()
+#{
+#	export PS1="$(~/.bash/powerline-bash.py $?)"
+#}
+#export PROMPT_COMMAND="_update_ps1"
 
 # Aliases
 [ -f ~/.bash/aliases ] && . ~/.bash/aliases

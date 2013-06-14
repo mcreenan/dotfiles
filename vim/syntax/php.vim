@@ -530,7 +530,7 @@ syn case ignore
 
   syn cluster phpClClasses add=NONE
   syn cluster phpClInterfaces add=NONE
-  syn cluster phpClStructures add=@phpClClasses,@phpClInterfaces
+  syn cluster phpClStructures add=@phpClClasses,@phpClInterfaces,@phpUseTrait
 
   syn cluster phpClMethods add=@phpClMembers
   syn cluster phpClProperties add=@phpClMembers
@@ -542,8 +542,9 @@ syn case ignore
   " Note: the next clusters contains all the regions or matches that can
   " contain a class or interface name
   syn cluster phpClClassHere add=phpStructureHere
+  syn cluster phpClTraitHere add=phpStructureHere
   syn cluster phpClInterfaceHere add=phpStructureHere
-  syn cluster phpClStructureHere add=@phpClClassHere,@phpClStructureHere
+  syn cluster phpClStructureHere add=@phpClClassHere,@phpClStructureHere,@phpClTraitHere
 
   syn cluster phpClMethodHere add=phpMemberHere,phpMethodHere
   syn cluster phpClPropertyHere add=phpMemberHere,phpPropertyHere
@@ -635,7 +636,9 @@ syn case ignore
   syn match phpNumber contained display /+[1-9]\d*\>/
   syn match phpNumber contained display /\<0x\x\{1,8}\>/
   syn match phpNumber contained display /\<0\d*\>/ contains=phpOctalError
+  syn match phpNumber contained display /\<0b\d*\>/ contains=phpBinaryError
   syn match phpOctalError contained display /[89]/
+  syn match phpBinaryError contained display /[23456789]/
 
   " Note: I've split float into 3 matches which each have a fixed starting
   " character
@@ -1853,6 +1856,8 @@ hi link phpClassDefine phpDefine
 if s:alt_arrays
   syn cluster phpClExpressions add=phpArrayRegion
   syn cluster phpClValues add=phpArrayRegionSimple
+  syn cluster phpClValues add=phpArrayRegionBracket
+  " Sbiddle: array brackets
   " TODO: should the error highlighting be optional???
   if s:fold_arrays
     syn region phpArrayRegionSimple contained matchgroup=phpArrayParens start=/\<array\_s*(/ end=/)/
@@ -1863,11 +1868,18 @@ if s:alt_arrays
           \ keepend extend contains=@phpClExpressions,phpArrayPair,phpArrayComma
           \ matchgroup=Error end=/;/
           \ fold
+    syn region phpArrayRegionBracket contained matchgroup=phpArrayParens start=/\v\[/ end=/\v\]/
+          \ keepend extend contains=@phpClExpressions,phpArrayPair,phpArrayComma
+          \ matchgroup=Error end=/;/
+          \ fold
   else
     syn region phpArrayRegionSimple contained matchgroup=phpArrayParens start=/\<array\_s*(/ end=/)/
           \ keepend extend contains=@phpClValues,phpArrayPair,phpArrayComma
           \ matchgroup=Error end=/;/
     syn region phpArrayRegion contained matchgroup=phpArrayParens start=/\<array\_s*(/ end=/)/
+          \ keepend extend contains=@phpClExpressions,phpArrayPair,phpArrayComma
+          \ matchgroup=Error end=/;/
+    syn region phpArrayRegionBracket contained matchgroup=phpArrayParens start=/\v\[/ end=/\v\]/
           \ keepend extend contains=@phpClExpressions,phpArrayPair,phpArrayComma
           \ matchgroup=Error end=/;/
   endif
@@ -2035,7 +2047,7 @@ if s:strict_blocks
           \ matchgroup=Error end=/}/ end=/\]/
             \ end=/\$\@<!\<\%(protected\|public\|private\)\>/
             \ end=/\$\@<!\<\%(final\|abstract\|static\|global\)\>/
-            \ end=/\$\@<!\<\%(class\|function\|interface\|extends\)\>/
+            \ end=/\$\@<!\<\%(class\|function\|interface\|extends\|trait\)\>/
             \ end=/\$\@<!\<\%(return\|break\|continue\|case\|default\|echo\)\>/
     syn region phpSwitchConstructRegion keepend extend contained contains=@phpClExpressions
           \ nextgroup=phpSemicolonNotAllowedHere,phpSwitchBlock skipwhite skipempty
@@ -2043,19 +2055,23 @@ if s:strict_blocks
           \ matchgroup=Error end=/}/ end=/\]/
             \ end=/\$\@<!\<\%(protected\|public\|private\)\>/
             \ end=/\$\@<!\<\%(final\|abstract\|static\|global\)\>/
-            \ end=/\$\@<!\<\%(class\|function\|interface\|extends\)\>/
+            \ end=/\$\@<!\<\%(class\|function\|interface\|extends\|trait\)\>/
             \ end=/\$\@<!\<\%(return\|break\|continue\|case\|default\|echo\)\>/
     syn region phpDoWhileConstructRegion keepend extend contained contains=@phpClExpressions
           \ matchgroup=phpControlParent start=/(/ end=/)\_s*;/
           \ matchgroup=Error end=/}/ end=/\]/ end=/;/
             \ end=/\$\@<!\<\%(protected\|public\|private\)\>/
             \ end=/\$\@<!\<\%(final\|abstract\|static\|global\)\>/
-            \ end=/\$\@<!\<\%(class\|function\|interface\|extends\)\>/
+            \ end=/\$\@<!\<\%(class\|function\|interface\|extends\|trait\)\>/
             \ end=/\$\@<!\<\%(return\|break\|continue\|case\|default\|echo\)\>/
   endif
 
   " match up ( and ), as well as [ and ]
-  syn cluster phpClExpressions add=phpParentRegion,phpBracketRegion
+  syn cluster phpClExpressions add=phpParentRegion
+
+  " SBiddle: comment out for PHP 5.4 arrays
+  ",phpBracketRegion
+
   syn region phpParentRegion contained keepend extend contains=@phpClExpressions
         \ matchgroup=phpParent start=/(/ end=/)/
         \ matchgroup=Error end=/;/ end=/}/ end=/\]/
@@ -2084,7 +2100,7 @@ else
   syn match phpParent contained display /)/
 endif
 
-syn cluster	phpClTop      add=phpFoldFunction,phpFoldClass,phpFoldInterface
+syn cluster	phpClTop      add=phpFoldFunction,phpFoldClass,phpFoldInterface,phpFoldTrait
 
 " PHP Region
 if s:long_tags
@@ -2158,11 +2174,18 @@ if s:strict_blocks
     syn keyword phpStructure contained class
           \ nextgroup=phpDefineClassName skipwhite skipempty
 
+    syn keyword phpStructure contained trait
+          \ nextgroup=phpDefineTraitName skipwhite skipempty
+
     " 3: an empty placeholder for any class name (which in turn can contain
     " any of the known PHP class names)
     " NOTE: allow matching the class block immediately after the class name
     syn cluster phpClClassHere add=phpDefineClassName
     syn match phpDefineClassName /\h\w*/ contained contains=@phpClStructures
+          \ nextgroup=@phpClDefineClassBlock skipwhite skipempty
+
+    syn cluster phpClTraitHere add=phpDefineTraitName
+    syn match phpDefineTraitName /\h\w*/ contained contains=@phpClStructures
           \ nextgroup=@phpClDefineClassBlock skipwhite skipempty
 
   " II MATCH: class myFoo <extends baseFoo> implements foo, Iterator { }: {{{3
@@ -2224,6 +2247,12 @@ if s:strict_blocks
           \ nextgroup=@phpClDefineClassBlock skipwhite skipempty
     hi link phpDefineClassBlockCommentCStyle phpComment
 
+    syn cluster phpClDefineTraitBlock add=phpDefineTraitBlockCommentCStyle
+    syn region phpDefineTraitBlockCommentCStyle start=,/\*, end=,\*/, keepend
+          \ contained contains=@Spell
+          \ nextgroup=@phpClDefineTraitBlock skipwhite skipempty
+    hi link phpDefineTraitBlockCommentCStyle phpComment
+
     " 3: look for the actual { } block
     syn cluster phpClDefineClassBlock add=phpClassBlock
     if (s:folding == 1) || (s:folding == 2)
@@ -2238,6 +2267,24 @@ if s:strict_blocks
       if s:fold_manual
         syn region phpClassBlock matchgroup=phpBraceClass start='{\ze\s*//\s*fold\s*$\c' end='}' keepend extend
               \ contained contains=@phpClInClass
+              \ matchgroup=phpHTMLError end=/?>/
+              \ fold
+      endif
+    endif
+
+    syn cluster phpClDefineTraitBlock add=phpTraitBlock
+    if (s:folding == 1) || (s:folding == 2)
+      syn region phpTraitBlock matchgroup=phpBraceTrait start=/{/ end=/}/ keepend extend
+            \ contained contains=@phpClInTrait
+            \ matchgroup=phpHTMLError end=/?>/
+            \ fold
+    else
+      syn region phpTraitBlock matchgroup=phpBraceTrait start=/{/ end=/}/ keepend extend
+            \ contained contains=@phpClInTrait
+            \ matchgroup=phpHTMLError end=/?>/
+      if s:fold_manual
+        syn region phpTraitBlock matchgroup=phpBraceTrait start='{\ze\s*//\s*fold\s*$\c' end='}' keepend extend
+              \ contained contains=@phpClInTrait
               \ matchgroup=phpHTMLError end=/?>/
               \ fold
       endif
@@ -2464,6 +2511,48 @@ if s:strict_blocks
     syn keyword phpStorageClass2 contained private protected public static final abstract
     hi link phpStorageClass2 phpStorageClass
 
+    " SBiddle: usage of traits
+    syn cluster phpClInClass add=phpTraitUse
+    syn keyword phpTraitUse contained use nextgroup=@phpClDefineTraitUseNames containedin=phpClassBlock skipwhite skipempty
+    hi link phpTraitUse phpStorageClass
+
+    syn cluster phpClDefineTraitUseNames add=phpDefineTraitUse
+    syn match phpDefineTraitUse /\h\(\w\+,*\s*\)\+/ nextgroup=@phpTrTraitUseBlock skipwhite skipnl skipempty
+
+    syn cluster phpTrTraitUseBlock add=phpTrInBlock
+    if (s:folding == 1) || (s:folding == 2)
+      syn region phpTrInBlock matchgroup=phpBraceTraitUse start=/{/ end=/}/ keepend extend
+            \ contained contains=@phpTrInUse
+            \ matchgroup=phpHTMLError end=/?>/
+            \ fold
+    else
+      syn region phpTrInBlock matchgroup=phpBraceTraitUse start=/{/ end=/}/ keepend extend
+            \ contained contains=@phpTrInUse
+            \ matchgroup=phpHTMLError end=/?>/
+      if s:fold_manual
+        syn region phpTrInBlock matchgroup=phpBraceTraitUse start='{\ze\s*//\s*fold\s*$\c' end='}' keepend extend
+              \ contained contains=@phpTrInUse
+              \ matchgroup=phpHTMLError end=/?>/
+              \ fold
+      endif
+    endif
+    hi link phpBraceTraitUse phpBrace
+
+
+    syn cluster phpTrInUse add=@phpTraitUseConflict
+    syn cluster phpTrInUse add=@phpTraitUseAlias
+    syn cluster phpTrInUse add=phpTraitUseEnd
+    syn match phpTraitUseEnd /;/ contained skipwhite skipnl
+    syn cluster phpTraitUseConflict add=phpTraitUseConflictName
+    syn match phpTraitUseConflictName /\h\w\+::\w\+/ contained nextgroup=phpTraitUseConflictInstead skipwhite
+    syn keyword phpTraitUseConflictInstead insteadof nextgroup=phpTraitUseConflictResolve skipwhite
+    syn match phpTraitUseConflictResolve /\h\w\+/ nextgroup=phpTraitUseConflictEnd skipwhite
+    syn match phpTraitUseConflictEnd /;/
+
+    hi link phpTraitUseConflictEnd phpSemicolon
+    hi link phpTraitUseEnd phpSemicolon
+    hi link phpTraitUseConflictInstead Keyword
+
     syn keyword phpDefineMethod function contained containedin=phpClassBlock
           \ nextgroup=@phpClDefineMethodName,phpDefineMethodByRef
           \ skipwhite skipempty
@@ -2562,6 +2651,7 @@ else
     syn match	phpDefine	"\(\s\|^\)\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\(\s\+.*[;}]\)\@="	contained contains=phpSCKeyword
     syn match	phpStructure	"\(\s\|^\)\(abstract\s\+\|final\s\+\)*class\(\s\+.*}\)\@="	contained
     syn match	phpStructure	"\(\s\|^\)interface\(\s\+.*}\)\@="	contained
+    syn match	phpStructure	"\(\s\|^\)trait\(\s\+.*}\)\@="	contained
     syn match	phpException	"\(\s\|^\)try\(\s\+.*}\)\@="	contained
     syn match	phpException	"\(\s\|^\)catch\(\s\+.*}\)\@="	contained
 
@@ -2579,12 +2669,13 @@ else
     syn region	phpFoldClass	matchgroup=Structure start="^\z(\s*\)\(abstract\s\+\|final\s\+\)*class\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}"
           \ contains=@phpClInFunction,phpFoldFunction,phpSCKeyword contained transparent fold extend
     syn region	phpFoldInterface	matchgroup=Structure start="^\z(\s*\)interface\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
+    syn region	phpFoldTrait	matchgroup=Structure start="^\z(\s*\)trait\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
     syn region	phpFoldCatch	matchgroup=Exception start="^\z(\s*\)catch\%([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
     syn region	phpFoldTry	matchgroup=Exception start="^\z(\s*\)try\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent fold extend
 
   elseif s:folding == 2 " {{{1
     syn keyword	phpDefine	function	contained
-    syn keyword	phpStructure	abstract class interface	contained
+    syn keyword	phpStructure	abstract class interface trait	contained
     syn keyword	phpException	catch throw try	contained
     syn keyword	phpStorageClass	final global private protected public static	contained
 
@@ -2602,6 +2693,7 @@ else
     syn match	phpDefine	"\(\s\|^\)\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\(\s\+.*[;}]\)\@="	contained contains=phpSCKeyword
     syn match	phpStructure	"\(\s\|^\)\(abstract\s\+\|final\s\+\)*class\(\s\+.*}\)\@="	contained
     syn match	phpStructure	"\(\s\|^\)interface\(\s\+.*}\)\@="	contained
+    syn match	phpStructure	"\(\s\|^\)trait\(\s\+.*}\)\@="	contained
     syn match	phpException	"\(\s\|^\)try\(\s\+.*}\)\@="	contained
     syn match	phpException	"\(\s\|^\)catch\(\s\+.*}\)\@="	contained
 
@@ -2614,12 +2706,13 @@ else
     syn region	phpFoldHtmlInside	matchgroup=phpRegionDelimiter start="?>" end="<?\(php\w\@!\)\=" contained transparent contains=@htmlTop
     syn region	phpFoldClass	matchgroup=Structure start="^\z(\s*\)\(abstract\s\+\|final\s\+\)*class\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction,phpSCKeyword contained transparent extend
     syn region	phpFoldInterface	matchgroup=Structure start="^\z(\s*\)interface\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent extend
+    syn region	phpFoldTrait	matchgroup=Structure start="^\z(\s*\)trait\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent extend
     syn region	phpFoldCatch	matchgroup=Exception start="^\z(\s*\)catch\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent extend
     syn region	phpFoldTry	matchgroup=Exception start="^\z(\s*\)try\s\+\([^}]*$\)\@=" matchgroup=Delimiter end="^\z1}" contains=@phpClFunction,phpFoldFunction contained transparent extend
 
   else " {{{1
     syn keyword	phpDefine       contained function
-    syn keyword	phpStructure	contained abstract class interface
+    syn keyword	phpStructure	contained abstract class interface trait
     syn keyword	phpException	contained catch throw try
     syn keyword	phpStorageClass	contained final global private protected public static
   endif " }}} 1
@@ -2826,7 +2919,7 @@ if !exists("php_ignore_phpdoc")
     syntax match  phpDocTags  "@\(global\|method\|name\|param\|property\|staticvar\).\+$" contains=phpOperator,phpDocParamVarDesc,phpType containedin=phpComment
     syntax match  phpDocTags  "@\(package\|category\|subpackage\|version\).\+$" contains=phpDocParamDesc containedin=phpComment
 
-    syntax match  phpDocTags   /\v\c\@(return).+$/ contains=phpDocReturn containedin=phpComment,phpOperator,phpDocParamDesc
+    syntax match  phpDocTags   /\v\c\@(return|var).+$/ contains=phpDocReturn containedin=phpComment,phpOperator,phpDocParamDesc
     syntax match  phpDocReturn contained /\v\c\s([a-z_]+\|?)+/ contains=phpOperator,phpBoolean,phpType
     hi link phpDocReturn phpDocParamDesc
 
@@ -2971,10 +3064,14 @@ if version >= 508 || !exists("did_php_syn_inits")
   if s:alt_blocks
     HiLink phpBraceFunc      phpDefine
     HiLink phpBraceClass     phpStructure
+    HiLink phpBraceTrait     phpStructure
+    HiLink phpBraceTraitUse  phpStructure
     HiLink phpBraceException phpException
   else
     HiLink phpBraceFunc      phpBrace
     HiLink phpBraceClass     phpBrace
+    HiLink phpBraceTrait     phpBrace
+    HiLink phpBraceTraitUse  phpBrace
     HiLink phpBraceException phpBrace
   endif
 

@@ -132,6 +132,7 @@ endif
 hi SpecialKey ctermfg=238
 hi NonText ctermfg=232
 
+" Common syntax groups
 hi Define ctermfg=68  ctermbg=none  cterm=bold
 hi Number  ctermfg=124
 hi Boolean ctermfg=124
@@ -151,7 +152,7 @@ hi Label ctermfg=68
 hi Include ctermfg=24
 hi Normal ctermfg=251
 hi Structure ctermfg=214
-hi Type ctermfg=70
+hi Type ctermfg=72
 hi SpecialChar ctermfg=231
 hi Pmenu ctermbg=238 ctermfg=231
 
@@ -210,10 +211,12 @@ hi csspseudoclassid ctermbg=233
 
 " PHP Specific
 hi phpRegionDelimiter cterm=bold ctermfg=228
+hi phpRepeat          cterm=bold ctermfg=33
 hi phpSpecialFunction cterm=bold ctermfg=79
 
 let php_sql_query = 0
 let php_htmlInStrings = 0
+let php_alt_construct_parents = 1
 
 let g:colors_name = "zephyr"
 let colors_name   = "zephyr"

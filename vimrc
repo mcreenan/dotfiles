@@ -1,6 +1,7 @@
 " Make sure syntax highlighting is enabled.. OR ELSE
 syntax on
 
+set term=xterm-256color
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 " Enable pathogen bundles (see bundles/ directory)
@@ -20,7 +21,8 @@ set pastetoggle=<f12>
 set shortmess=atI
 set backspace=2
 set textwidth=0
-set encoding=utf8
+set encoding=utf-8
+set t_Co=256
 set modeline
 set gdefault
 set wildmode=longest,list
@@ -64,6 +66,7 @@ set directory=$HOME/.vimswap
 
 " PHP Syntax plugin settings
 let php_sql_query=0
+let php_html_in_strings=0
 let php_htmlInStrings=0
 let g:php_noShortTags = 1
 "let g:php_smart_members = 1
@@ -83,6 +86,7 @@ endif
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 nmap <f5> :ToggleErrors<cr>
+
 set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
 
@@ -114,8 +118,8 @@ autocmd FileType yaml setlocal expandtab
 autocmd FileType yaml setlocal sw=2
 autocmd FileType yaml setlocal ts=2
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
-autocmd FileType tt2html,smarty setlocal sw=2
-autocmd FileType tt2html,smarty setlocal tabstop=2
+autocmd FileType tt2html,smarty,yaml setlocal sw=2
+autocmd FileType tt2html,smarty,yaml setlocal tabstop=2
 autocmd FileType css setlocal textwidth=0
 autocmd FileType perl setlocal sw=4
 autocmd FileType perl setlocal expandtab
