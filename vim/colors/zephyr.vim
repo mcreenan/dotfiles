@@ -158,12 +158,12 @@ hi Pmenu ctermbg=238 ctermfg=231
 
 " HTML/CSS specific
 hi htmlstring ctermfg=240
-hi htmltagname ctermfg=130
-hi htmltag ctermfg=66
-hi htmlendtag ctermfg=66
-hi htmlarg ctermfg=72
+hi htmltagname ctermfg=202
+hi htmltag ctermfg=67
+hi htmlendtag ctermfg=67
+hi htmlarg ctermfg=74
 hi htmllink ctermfg=32 cterm=underline
-hi htmlspecialtagname ctermfg=208 " Extra highlighting for special tag names, brighter
+hi htmlspecialtagname ctermfg=214 " Extra highlighting for special tag names, brighter
 hi htmlevent ctermfg=157
 hi cssstyle ctermbg=233
 hi csstagname ctermbg=233 ctermfg=167
@@ -220,3 +220,7 @@ let php_alt_construct_parents = 1
 
 let g:colors_name = "zephyr"
 let colors_name   = "zephyr"
+
+" Twig
+hi twigString  ctermfg=244
+hi twigSpecial ctermfg=124

@@ -111,6 +111,7 @@ nnoremap - :Switch<CR>
 " File specific settings "
 """"""""""""""""""""""""""
 autocmd FileType php noremap \L gUiwdiwi$this->L('<ESC>pa')<ESC>
+autocmd FileType php vnoremap <C-a> :Align =><CR>
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
 autocmd FileType perl setlocal noexpandtab
 autocmd FileType perl setlocal textwidth=120
@@ -123,6 +124,15 @@ autocmd FileType tt2html,smarty,yaml setlocal tabstop=2
 autocmd FileType css setlocal textwidth=0
 autocmd FileType perl setlocal sw=4
 autocmd FileType perl setlocal expandtab
+
+autocmd FileType python setlocal tabstop=4
+autocmd FileType python setlocal expandtab
+autocmd FileType python setlocal shiftwidth=4
+autocmd FileType python setlocal softtabstop=4
+autocmd FileType python setlocal foldmethod=indent
+autocmd FileType python setlocal foldlevel=99
+autocmd FileType python setlocal autoindent
+autocmd FileType python setlocal smartindent
 
 " Register new file types
 autocmd BufRead,BufNewfile *.tt set filetype=tt2html
@@ -143,4 +153,5 @@ endfunc
 " Comment abbreviations
 iab firephp require_once'/home/mcreenan/firephp';$fp=FirePHP::getInstance();$fp->log();<ESC>T(i
 iab flog require_once'/home/mcreenan/firelogger.php';flog();<ESC>T(i
-iab debug $fh=fopen('/home/mcreenan/debug','a');fwrite($fh, var_export(, true));fclose($fh);<ESC>T,hi
+iab fdebug $fh=fopen('/home/mcreenan/debug','a');fwrite($fh, var_export(, true));fclose($fh);<ESC>T,hi
+iab <!-- <!-- --><ESC>T hi
