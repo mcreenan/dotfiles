@@ -40,3 +40,9 @@
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
 	url = https://github.com/godlygeek/tabular
+[submodule "vim/bundle/vimshell"]
+	path = vim/bundle/vimshell
+	url = https://github.com/Shougo/vimshell.vim
+[submodule "vim/bundle/vmiproc"]
+	path = vim/bundle/vmiproc
+	url = https://github.com/Shougo/vimproc
