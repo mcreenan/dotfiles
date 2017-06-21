@@ -28,9 +28,6 @@
 [submodule "vim/bundle/switch"]
 	path = vim/bundle/switch
 	url = https://github.com/AndrewRadev/switch.vim
-[submodule "vim/bundle/powerline"]
-	path = vim/bundle/powerline
-	url = git://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/bundle/align"]
 	path = vim/bundle/align
 	url = https://github.com/vim-scripts/Align
@@ -46,3 +43,15 @@
 [submodule "vim/bundle/vmiproc"]
 	path = vim/bundle/vmiproc
 	url = https://github.com/Shougo/vimproc
+[submodule "vim/bundle/vim-supervisor"]
+	path = vim/bundle/vim-supervisor
+	url = https://github.com/thiderman/vim-supervisor
+[submodule "powerline"]
+	path = powerline
+	url = https://github.com/powerline/powerline
+[submodule "vim/bundle/vim-ansible-yaml"]
+	path = vim/bundle/vim-ansible-yaml
+	url = git://github.com/chase/vim-ansible-yaml.git
+[submodule "vim/bundle/jinja2-syntax"]
+	path = vim/bundle/jinja2-syntax
+	url = https://github.com/Glench/Vim-Jinja2-Syntax
