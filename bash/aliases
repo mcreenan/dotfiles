@@ -1,11 +1,58 @@
 # vim:ft=sh
 
+# virtualenv
+alias venv='source venv/bin/activate'
+
 # git
 alias gup='cd $(git rev-parse --show-toplevel)'
+alias vim='/usr/local/bin/vim'
 
 # Re-aliasing of system commands
-alias ls='ls --color'
+alias ls='ls -G'
 alias tree='tree -C'
-alias ll='ls -ahlb --color'
+alias ll='ls -ahlbG'
 alias less='less -x4 -R -N -F'
-alias grep="grep --color"
+alias grep='grep --color'
+
+function update-perl6 {
+	rm -fr ~/.zef;
+	rm -fr ~/.perl6;
+	rm -fr ~/.rakudobrew/;
+	git clone https://github.com/tadzik/rakudobrew ~/.rakudobrew;
+	rakudobrew build moar;
+	rakudobrew build zef;
+}
+
+# AWS SSH function
+function awsssh {
+	OUTPUT="$(python ~/scripts/get-ssh-connection.py $@)"
+	if [ $? -eq 0 ]; then
+		LINE_COUNT="$(echo "$OUTPUT" | wc -l)"
+		if [ $LINE_COUNT -eq 1 ]; then
+			echo "SSHing to server with $OUTPUT"
+			ssh $OUTPUT
+		else
+			echo "$OUTPUT"
+			echo
+			echo "Rerun command with the # as the last argument"
+		fi
+	else
+		echo $OUTPUT
+	fi
+}
+
+function copy_rpro_daily {
+	for location in ksc mws; do
+		DIR=/Users/mcreenan/Documents/EDC/RetailProTransactions/Extracts/$location
+		mkdir $DIR
+		DATE=$(date +"%Y%m%d")
+		scp hafps3-primary:/mnt/RetailProTransactions/$location/Archive/Archive/D1_RPro_Daily*$DATE*.txt $DIR/
+	done
+}
+
+function git-find-file-verbose {
+	for branch in $(git rev-list --all)
+	do
+	  git ls-tree -r --name-only $branch | grep "$1" | sed 's/^/'$branch': /'
+	done
+}

@@ -7,6 +7,10 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " Enable pathogen bundles (see bundles/ directory)
 call pathogen#infect()
 
+" iTerm2 Cursor Shape
+let &t_SI = "\<Esc>]50;CursorShape=1\x7" 
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 " Leader!
 let mapleader = ','
 nmap <leader>q :q<cr>
@@ -14,10 +18,13 @@ nmap <leader>q :q<cr>
 " Auto reload vimrc when saved
 autocmd bufwritepost vimrc source ~/.vimrc
 
+set clipboard=unnamed
 " Better pasting behavior
 set nopaste
+set clipboard=unnamed
 set pastetoggle=<f12>
 
+set colorcolumn=120
 set shortmess=atI
 set backspace=2
 set textwidth=0
@@ -39,6 +46,9 @@ set autoindent   " Auto indentation
 set smartindent  " Please god let this not get in my way
 set list
 set listchars=tab:» ,trail:-,extends:>,precedes:<
+
+" Format JSON
+com! FormatJSON %!python -m json.tool
 
 " Don't clobber unnamed register when pasting in visual mode
 vnoremap p pgvy
@@ -85,10 +95,17 @@ endif
 " Syntastic plugin
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
-nmap <f5> :ToggleErrors<cr>
+nmap <leader><leader> :ToggleErrors<cr>
 
-set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
+" Status Line
+"set stl=%r%y\ %F\ %m\ (ff=%{&ff})\ %#warningmsg#%*\ %=\ %#Error#%{SyntasticStatuslineFlag()}%*\ %{fugitive#statusline()}
 set laststatus=2
+"set rtp+=/Users/mcreenan/dotfiles/powerline/bindings/vim
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
+"let g:Powerline_symbols = "fancy"
+set fillchars+=stl:\ ,stlnc:\
 
 " Tags
 source $VIMRUNTIME/macros/matchit.vim
@@ -113,8 +130,6 @@ nnoremap - :Switch<CR>
 autocmd FileType php noremap \L gUiwdiwi$this->L('<ESC>pa')<ESC>
 autocmd FileType php vnoremap <C-a> :Align =><CR>
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
-autocmd FileType perl setlocal noexpandtab
-autocmd FileType perl setlocal textwidth=120
 autocmd FileType yaml setlocal expandtab
 autocmd FileType yaml setlocal sw=2
 autocmd FileType yaml setlocal ts=2
@@ -123,19 +138,43 @@ autocmd FileType tt2html,smarty,yaml setlocal sw=2
 autocmd FileType tt2html,smarty,yaml setlocal tabstop=2
 autocmd FileType css setlocal textwidth=0
 autocmd FileType perl setlocal sw=4
-autocmd FileType perl setlocal expandtab
+autocmd FileType perl setlocal noexpandtab
+autocmd FileType perl setlocal textwidth=120 colorcolumn=120
+autocmd FileType perl6 setlocal sw=4
+autocmd FileType perl6 setlocal softtabstop=4
+autocmd FileType perl6 setlocal expandtab
+autocmd FileType perl6 setlocal textwidth=120 colorcolumn=120
+autocmd FileType perl6 setlocal foldmethod=indent
+autocmd FileType perl6 setlocal foldlevel=99
+autocmd FileType perl6 setlocal autoindent
+autocmd FileType perl6 setlocal nosmartindent
+
+autocmd FileType javascript setlocal textwidth=120 colorcolumn=120
+autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4
+autocmd FileType javascript setlocal autoindent
+
+autocmd FileType html setlocal textwidth=120 colorcolumn=120
+autocmd FileType html setlocal expandtab tabstop=4 shiftwidth=4
+autocmd FileType html setlocal autoindent
 
 autocmd FileType python setlocal tabstop=4
+autocmd FileType python setlocal colorcolumn=120
 autocmd FileType python setlocal expandtab
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal softtabstop=4
 autocmd FileType python setlocal foldmethod=indent
 autocmd FileType python setlocal foldlevel=99
 autocmd FileType python setlocal autoindent
-autocmd FileType python setlocal smartindent
+autocmd FileType python setlocal nosmartindent
 
 " Register new file types
 autocmd BufRead,BufNewfile *.tt set filetype=tt2html
+autocmd BufRead,BufNewfile *.j2 set filetype=jinja
+autocmd BufRead,BufNewfile *.p6 set filetype=perl6
+autocmd BufRead,BufNewfile *.pl6 set filetype=perl6
+autocmd BufRead,BufNewfile *.pm6 set filetype=perl6
+
+autocmd FileType jinja setlocal shiftwidth=4 tabstop=4 expandtab
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-P> :call <SID>SynStack()<CR>
@@ -155,3 +194,6 @@ iab firephp require_once'/home/mcreenan/firephp';$fp=FirePHP::getInstance();$fp-
 iab flog require_once'/home/mcreenan/firelogger.php';flog();<ESC>T(i
 iab fdebug $fh=fopen('/home/mcreenan/debug','a');fwrite($fh, var_export(, true));fclose($fh);<ESC>T,hi
 iab <!-- <!-- --><ESC>T hi
+
+" Perl 6 stuff
+let g:syntastic_enable_perl6_checker = 1

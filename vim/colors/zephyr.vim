@@ -20,7 +20,7 @@ syntax reset
 hi linenr     cterm=BOLD   ctermfg=238   ctermbg=235
 
 " Mode message (Insert, Visual, etc)
-hi ModeMsg cterm=BOLD ctermfg=232 ctermbg=154
+"hi ModeMsg cterm=BOLD ctermfg=232 ctermbg=154
 
 " Current Line
 set cursorline
@@ -31,7 +31,7 @@ hi CursorLine ctermbg=232 cterm=NONE
 exec "hi Cursor         cterm=BOLD   ctermfg=255   ctermbg=167"
 exec "hi CursorIM       cterm=BOLD   ctermfg=255   ctermbg=167"
 
-exec "hi Normal         cterm=NONE   ctermfg=255   ctermbg=0"
+exec "hi Normal         cterm=NONE   ctermfg=015   ctermbg=0"
 exec "hi NonText        cterm=NONE   ctermfg=230   ctermbg=232"
 exec "hi Visual         cterm=NONE   ctermfg=255   ctermbg=68"
 
@@ -140,8 +140,8 @@ hi Float   ctermfg=124
 hi Function ctermfg=73 ctermbg=none  cterm=bold
 hi Statement ctermfg=68
 hi Constant ctermfg=88
-hi Comment ctermfg=154 ctermbg=none
-hi SpecialComment ctermfg=154 ctermbg=none
+hi Comment ctermfg=148 ctermbg=none
+hi SpecialComment ctermfg=148 ctermbg=none
 hi Identifier ctermfg=172
 hi Operator ctermfg=221 ctermbg=none
 hi Keyword ctermfg=221 ctermbg=none
@@ -208,6 +208,10 @@ hi cssbraces ctermbg=233
 hi cssdefinition ctermbg=233
 hi csspseudoclass ctermbg=233
 hi csspseudoclassid ctermbg=233
+
+" Pmenu (tab completion, for example)
+hi Pmenu ctermfg=110 ctermbg=24
+hi PmenuSel ctermfg=0 ctermbg=159
 
 " PHP Specific
 hi phpRegionDelimiter cterm=bold ctermfg=228
