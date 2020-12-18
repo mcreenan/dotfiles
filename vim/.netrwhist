@@ -1,2 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =0
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/Users/mcreenan/Projects/dn-datalake-optimizers/datalake-optimizer-halo-checks/functions/optimize_halo_checks'
+let g:netrw_dirhist_2='/private/tmp/pyspark.halo-optimized.parquet.snappy'
+let g:netrw_dirhist_1='/Applications/Fiorano11/eStudio/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.401.v20161122-1740'

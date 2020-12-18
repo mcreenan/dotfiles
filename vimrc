@@ -171,6 +171,7 @@ autocmd FileType python setlocal nosmartindent
 autocmd BufRead,BufNewfile *.tt set filetype=tt2html
 autocmd BufRead,BufNewfile *.j2 set filetype=jinja
 autocmd BufRead,BufNewfile *.p6 set filetype=perl6
+autocmd BufRead,BufNewfile *.raku set filetype=perl6
 autocmd BufRead,BufNewfile *.pl6 set filetype=perl6
 autocmd BufRead,BufNewfile *.pm6 set filetype=perl6
 
@@ -197,3 +198,13 @@ iab <!-- <!-- --><ESC>T hi
 
 " Perl 6 stuff
 let g:syntastic_enable_perl6_checker = 1
+
+" Python
+let g:python_highlight_all = 1
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix

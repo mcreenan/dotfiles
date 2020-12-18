@@ -1,0 +1,114 @@
+# vim:ft=sh
+
+# Okta-awscli command
+alias okta-awscli='docker run -it --rm -v ~/.aws:/root/.aws -v ~/.okta-aws:/root/.okta-aws okta-awscli'
+
+# EDC
+alias locations='vim ~/Projects/dn-edc-configurations/locations.js'
+
+# virtualenv / python
+alias venv='source venv/bin/activate'
+alias py='PYTHONPATH=. venv/bin/python'
+
+# git
+alias gup='cd $(git rev-parse --show-toplevel)'
+alias vim='/usr/local/bin/vim'
+
+# Re-aliasing of system commands
+alias ls='ls -G'
+alias tree='tree -C'
+alias ll='ls -ahlbG'
+alias less='less -x4 -R -N -F'
+alias grep='grep --color'
+alias cat='bat'
+alias du='ncdu --color dark -rr -x --exclude .git --exclude node_modules'
+
+# SSH aliases for sshing to servers through SSH hopping
+alias ssh-bamboo-soa='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ubuntu@192.168.131.182"'
+alias ssh-bamboo-soa2='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.138"'
+alias ssh-bamboo-local='ssh -A -t jump ssh -A -t tower "ssh bamboo@192.168.131.12"'
+alias ssh-bamboo-sec='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ubuntu@1192.168.131.167"'
+
+alias ssh-hafpspci-primary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.16"'
+alias ssh-hafpspci-secondary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.126"'
+alias ssh-devhafpspci-primary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.25"'
+alias ssh-devhafpspci-secondary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.80"'
+
+function sshproxy() {
+	sshuttle -vNHr $1 -r ec2-user@172.20.132.52 --ssh-cmd 'ssh -i /Users/mcreenan/.ssh/admin-app.pem'
+}
+
+function update-perl6 {
+	rm -fr ~/.zef;
+	rm -fr ~/.perl6;
+	rm -fr ~/.rakudobrew/;
+	git clone https://github.com/tadzik/rakudobrew ~/.rakudobrew;
+	rakudobrew build moar;
+	rakudobrew build zef;
+}
+
+function aws3du(){
+  bucket=`cut -d/ -f3 <<< $1`
+  prefix=`awk -F/ '{for (i=4; i<NF; i++) printf $i"/"; print $NF}' <<< $1`
+  aws s3api \
+    list-objects \
+    --bucket $bucket \
+    --prefix=$prefix \
+    --output text \
+    --query '[sum(Contents[].Size), length(Contents[])]' \
+    | while read -r size num_objects; do
+      jq '. |{ size:.[0],num_objects: .[1]}' <<< "[\"$(/usr/local/opt/coreutils/libexec/gnubin/numfmt --to=si ${size})\",${num_objects}]"
+     done
+}
+
+# AWS SSH function
+awsssh() {
+	OUTPUT="$(python ~/scripts/get-ssh-connection.py $@)"
+	if [ $? -eq 0 ]; then
+		LINE_COUNT="$(echo "$OUTPUT" | wc -l)"
+		if [ $LINE_COUNT -eq 1 ]; then
+			echo "SSHing to server with $OUTPUT"
+			/usr/bin/ssh $(echo ${OUTPUT})
+		else
+			echo "$OUTPUT"
+			echo
+			echo "Rerun command with the # as the last argument"
+		fi
+	else
+		echo $OUTPUT
+	fi
+}
+
+# AWS SSH function using ip address
+awssshi() {
+	OUTPUT="$(python ~/scripts/get-ssh-connection-ip.py $@)"
+	if [ $? -eq 0 ]; then
+		LINE_COUNT="$(echo "$OUTPUT" | wc -l)"
+		if [ $LINE_COUNT -eq 1 ]; then
+			echo "SSHing to server with $OUTPUT"
+			/usr/bin/ssh $(echo ${OUTPUT})
+		else
+			echo "$OUTPUT"
+			echo
+			echo "Rerun command with the # as the last argument"
+		fi
+	else
+		echo $OUTPUT
+	fi
+}
+
+function copy_rpro_daily {
+	for location in ksc mws; do
+		DIR=/Users/mcreenan/Documents/EDC/RetailProTransactions/Extracts/$location
+		mkdir $DIR
+		DATE=$(date +"%Y%m%d")
+		scp hafps3-primary:/mnt/RetailProTransactions/$location/Archive/Archive/D1_RPro_Daily*$DATE*.txt $DIR/
+	done
+}
+
+function git-find-file-verbose {
+	for branch in $(git rev-list --all)
+	do
+	  git ls-tree -r --name-only $branch | grep "$1" | sed 's/^/'$branch': /'
+	done
+}

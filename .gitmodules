@@ -55,3 +55,12 @@
 [submodule "vim/bundle/jinja2-syntax"]
 	path = vim/bundle/jinja2-syntax
 	url = https://github.com/Glench/Vim-Jinja2-Syntax
+[submodule "vim/bundle/vim-raku"]
+	path = vim/bundle/vim-raku
+	url = https://github.com/Raku/vim-raku
+[submodule "vim/bundle/semshi"]
+	path = vim/bundle/semshi
+	url = https://github.com/numirias/semshi
+[submodule "vim/bundle/python-syntax"]
+	path = vim/bundle/python-syntax
+	url = https://github.com/vim-python/python-syntax

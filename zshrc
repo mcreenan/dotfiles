@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=/Users/mcreenan/bin:/usr/local/Cellar/rakudo-star/2018.01/share/perl6/site/bin:/usr/local/Cellar/python@2/2.7.15/Frameworks/Python.framework/Versions/2.7/bin:/Users/mcreenan/Library/Python/3.7/bin:/Users/mcreenan/.local:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=/usr/local/opt/mongodb-community@3.6/bin:/Users/mcreenan/bin:/Users/mcreenan/rakudo/bin/:/usr/local/Cellar/python@2/2.7.15/Frameworks/Python.framework/Versions/2.7/bin:/Users/mcreenan/Library/Python/3.7/bin:/Users/mcreenan/.local:/Users/mcreenan/bin:$PATH
+export PATH=/Users/mcreenan/.astro/:/Users/mcreenan/.config/yarn/global/node_modules/.bin:/Users/mcreenan/.local:/Users/mcreenan/.local/bin:/Users/mcreenan/.yarn/bin:/Users/mcreenan/Library/Python/3.7/bin:/Users/mcreenan/Library/Python/3.8/bin:/Users/mcreenan/bin:/Users/mcreenan/rakudo/bin/:/bin:/sbin:/usr/bin:/usr/local/Cellar/pipenv/2020.11.4/libexec/tools:/usr/local/Cellar/python@2/2.7.15/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/bin:/usr/local/go/bin:/usr/local/opt/fzf/bin:/usr/local/opt/mongodb-community@3.6/bin:/usr/local/share/dotnet:/usr/sbin:$PATH
+# Fix for openssl stupidity with python
+export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib:$DYLD_LIBRARY_PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/mcreenan/.oh-my-zsh
@@ -123,7 +126,6 @@ source ~/.zsh-local
 if [ -f ~/.config/exercism/exercism_completion.zsh ]; then
   . ~/.config/exercism/exercism_completion.zsh
 fi
-export PATH="$PATH:$HOME/.astro/"
 
 # This speeds up pasting w/ autosuggest
 # https://github.com/zsh-users/zsh-autosuggestions/issues/238
@@ -145,11 +147,6 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Created by `userpath` on 2019-09-09 20:23:37
-export PATH="$PATH:/Users/mcreenan/.local/bin"
-
-# Created by `userpath` on 2019-09-09 20:24:12
-export PATH="$PATH:/Users/mcreenan/.local/bin"
-
-# Created by `userpath` on 2019-09-09 20:24:39
-export PATH="$PATH:/Users/mcreenan/.local/bin"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
