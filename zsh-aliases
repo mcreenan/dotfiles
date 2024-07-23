@@ -1,5 +1,19 @@
 # vim:ft=sh
 
+# Pytest
+alias pt='DATABASE_ENDPOINT=localhost DATABASE_PORT=5442 pipenv run pytest'
+
+# WSL2 Open file in explorer
+export WINDOWS_BROWSER='/mnt/c/Windows/explorer.exe'
+alias open="$BROWSER"
+
+alias tm='tmuxinator'
+
+alias dc='docker compose'
+
+# QR code in terminal
+alias qr='qrencode -t ansiutf8'
+
 # Okta-awscli command
 alias okta-awscli='docker run -it --rm -v ~/.aws:/root/.aws -v ~/.okta-aws:/root/.okta-aws okta-awscli'
 
@@ -12,7 +26,7 @@ alias py='PYTHONPATH=. venv/bin/python'
 
 # git
 alias gup='cd $(git rev-parse --show-toplevel)'
-alias vim='/usr/local/bin/vim'
+#alias vim='/usr/local/bin/vim'
 
 # Re-aliasing of system commands
 alias ls='ls -G'
@@ -20,23 +34,13 @@ alias tree='tree -C'
 alias ll='ls -ahlbG'
 alias less='less -x4 -R -N -F'
 alias grep='grep --color'
-alias cat='bat'
+alias cgrep='grep --color --exclude-dir node_modules --exclude-dir dist'
+alias fd='fdfind'
+#alias cat='bat'
 alias du='ncdu --color dark -rr -x --exclude .git --exclude node_modules'
 
-# SSH aliases for sshing to servers through SSH hopping
-alias ssh-bamboo-soa='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ubuntu@192.168.131.182"'
-alias ssh-bamboo-soa2='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.138"'
-alias ssh-bamboo-local='ssh -A -t jump ssh -A -t tower "ssh bamboo@192.168.131.12"'
-alias ssh-bamboo-sec='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ubuntu@1192.168.131.167"'
-
-alias ssh-hafpspci-primary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.16"'
-alias ssh-hafpspci-secondary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.126"'
-alias ssh-devhafpspci-primary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.25"'
-alias ssh-devhafpspci-secondary='ssh -A -t jump ssh -A -t tower "ssh -i dnc-fiorano-configuration/security-app.pem ec2-user@192.168.131.80"'
-
-function sshproxy() {
-	sshuttle -vNHr $1 -r ec2-user@172.20.132.52 --ssh-cmd 'ssh -i /Users/mcreenan/.ssh/admin-app.pem'
-}
+alias fs="foreman start -f Procfile.debug"
+alias fr="foreman run bundle exec"
 
 function update-perl6 {
 	rm -fr ~/.zef;
@@ -95,15 +99,6 @@ awssshi() {
 	else
 		echo $OUTPUT
 	fi
-}
-
-function copy_rpro_daily {
-	for location in ksc mws; do
-		DIR=/Users/mcreenan/Documents/EDC/RetailProTransactions/Extracts/$location
-		mkdir $DIR
-		DATE=$(date +"%Y%m%d")
-		scp hafps3-primary:/mnt/RetailProTransactions/$location/Archive/Archive/D1_RPro_Daily*$DATE*.txt $DIR/
-	done
 }
 
 function git-find-file-verbose {

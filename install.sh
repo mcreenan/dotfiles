@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash -x
 
 DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 for file in *; do
-	[ $file == "install.sh" ] && continue
+	if [ "$file" = "install.sh" ]; then
+		continue
+	fi
 
 	source="$HOME/.$file" # FROM ->   (ex: /home/user/.vimrc)
 	target="$DIR/$file"   # TO        (ex: /home/user/dotfiles/vimrc)

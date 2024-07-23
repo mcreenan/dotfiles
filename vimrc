@@ -130,13 +130,17 @@ nnoremap - :Switch<CR>
 autocmd FileType php noremap \L gUiwdiwi$this->L('<ESC>pa')<ESC>
 autocmd FileType php vnoremap <C-a> :Align =><CR>
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
+autocmd FileType ruby setlocal expandtab
+autocmd FileType ruby setlocal sw=4
+autocmd FileType ruby setlocal ts=4
 autocmd FileType yaml setlocal expandtab
 autocmd FileType yaml setlocal sw=2
 autocmd FileType yaml setlocal ts=2
 autocmd FileType php setlocal keywordprg=~/bin/php_doc
 autocmd FileType tt2html,smarty,yaml setlocal sw=2
 autocmd FileType tt2html,smarty,yaml setlocal tabstop=2
-autocmd FileType css setlocal textwidth=0
+autocmd FileType css setlocal textwidth=0 sw=2 ts=2 expandtab
+autocmd FileType scss setlocal textwidth=0 sw=2 ts=2 expandtab
 autocmd FileType perl setlocal sw=4
 autocmd FileType perl setlocal noexpandtab
 autocmd FileType perl setlocal textwidth=120 colorcolumn=120
@@ -150,7 +154,7 @@ autocmd FileType perl6 setlocal autoindent
 autocmd FileType perl6 setlocal nosmartindent
 
 autocmd FileType javascript setlocal textwidth=120 colorcolumn=120
-autocmd FileType javascript setlocal expandtab tabstop=4 shiftwidth=4
+autocmd FileType javascript setlocal expandtab tabstop=2 shiftwidth=2
 autocmd FileType javascript setlocal autoindent
 
 autocmd FileType html setlocal textwidth=120 colorcolumn=120
@@ -171,9 +175,11 @@ autocmd FileType python setlocal nosmartindent
 autocmd BufRead,BufNewfile *.tt set filetype=tt2html
 autocmd BufRead,BufNewfile *.j2 set filetype=jinja
 autocmd BufRead,BufNewfile *.p6 set filetype=perl6
+autocmd BufRead,BufNewfile *.rb set filetype=ruby
 autocmd BufRead,BufNewfile *.raku set filetype=perl6
 autocmd BufRead,BufNewfile *.pl6 set filetype=perl6
 autocmd BufRead,BufNewfile *.pm6 set filetype=perl6
+autocmd BufRead,BufNewfile *.tsx set filetype=typescript
 
 autocmd FileType jinja setlocal shiftwidth=4 tabstop=4 expandtab
 
@@ -186,25 +192,18 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
+" WSL2 Yank Support
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+if executable(s:clip)
+    augroup WSLYank
+        autocmd!
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system('cat |' . s:clip, @0) | endif
+    augroup END
+endif
+
 """"""""""""""""""""""""""""""
 " Hackish stuff... fix later "
 """"""""""""""""""""""""""""""
 
-" Comment abbreviations
-iab firephp require_once'/home/mcreenan/firephp';$fp=FirePHP::getInstance();$fp->log();<ESC>T(i
-iab flog require_once'/home/mcreenan/firelogger.php';flog();<ESC>T(i
-iab fdebug $fh=fopen('/home/mcreenan/debug','a');fwrite($fh, var_export(, true));fclose($fh);<ESC>T,hi
-iab <!-- <!-- --><ESC>T hi
-
 " Perl 6 stuff
 let g:syntastic_enable_perl6_checker = 1
-
-" Python
-let g:python_highlight_all = 1
-au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix

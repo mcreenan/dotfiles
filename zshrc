@@ -1,12 +1,37 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export VOLTA_HOME="$HOME/.volta"
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-# export PATH=/usr/local/opt/mongodb-community@3.6/bin:/Users/mcreenan/bin:/Users/mcreenan/rakudo/bin/:/usr/local/Cellar/python@2/2.7.15/Frameworks/Python.framework/Versions/2.7/bin:/Users/mcreenan/Library/Python/3.7/bin:/Users/mcreenan/.local:/Users/mcreenan/bin:$PATH
-export PATH=/Users/mcreenan/.astro/:/Users/mcreenan/.config/yarn/global/node_modules/.bin:/Users/mcreenan/.local:/Users/mcreenan/.local/bin:/Users/mcreenan/.yarn/bin:/Users/mcreenan/Library/Python/3.7/bin:/Users/mcreenan/Library/Python/3.8/bin:/Users/mcreenan/bin:/Users/mcreenan/rakudo/bin/:/bin:/sbin:/usr/bin:/usr/local/Cellar/pipenv/2020.11.4/libexec/tools:/usr/local/Cellar/python@2/2.7.15/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/bin:/usr/local/go/bin:/usr/local/opt/fzf/bin:/usr/local/opt/mongodb-community@3.6/bin:/usr/local/share/dotnet:/usr/sbin:$PATH
+# export PATH=/usr/local/opt/mongodb-community@3.6/bin:/home/mcreenan/bin:/home/mcreenan/rakudo/bin/:/usr/local/Cellar/python@2/2.7.15/Frameworks/Python.framework/Versions/2.7/bin:/home/mcreenan/Library/Python/3.7/bin:/home/mcreenan/.local:/home/mcreenan/bin:$PATH
+export PATH=/home/mcreenan/.config/yarn/global/node_modules/.bin:$PATH
+export PATH=/home/mcreenan/.local:$PATH
+export PATH=/home/mcreenan/.local/bin:$PATH
+export PATH=/home/mcreenan/.yarn/bin:$PATH
+export PATH=/home/mcreenan/bin:$PATH
+export PATH=/snap/bin/:$PATH
+export PATH=/home/mcreenan/rakudo/bin/:$PATH
+export PATH=/bin:/sbin:/usr/bin:/usr/local/bin:/usr/local/go/bin:/usr/local/opt/fzf/bin:/usr/sbin:$PATH
+export PATH=/home/mcreenan/.pyenv/bin:$PATH
+export PATH=/home/mcreenan/.pyenv/shims:$PATH
+export PATH=/home/mcreenan/.rbenv/shims:$PATH
+export PATH=$PATH:/usr/local/go/bin
+export PATH="$VOLTA_HOME/bin:$PATH"  # Volta must be first, but if no default node version specific, it will fall back
+export PATH=$PATH:/home/mcreenan/.nvm/versions/node/v16.13.0/bin/
+export PATH=$PATH:/mnt/c/Windows/System32
+export PATH=/opt/nvim-linux64/bin:$PATH
+
 # Fix for openssl stupidity with python
 export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib:$DYLD_LIBRARY_PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/mcreenan/.oh-my-zsh
+export ZSH=/home/mcreenan/.oh-my-zsh
 
 # Make python not generate pyc files at all
 export PYTHONDONTWRITEBYTECODE=1
@@ -15,7 +40,7 @@ export PYTHONDONTWRITEBYTECODE=1
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{240}┌"
 POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="%F{240}└%F{255}⟫%F{250}⟫%F{245}⟫%F{240}⟫%F{235}⟫%f "
@@ -81,7 +106,7 @@ POWERLEVEL9K_CHANGESET_HASH_LENGTH=6
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx catimg dircycle python sudo zsh-syntax-highlighting jira aws virtualenv celery)
+plugins=(git catimg dircycle python sudo jira aws virtualenv celery zsh-syntax-highlighting tmuxinator docker)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.zsh-aliases
@@ -96,7 +121,7 @@ source ~/.zsh-local
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+export EDITOR='vim'
 # else
 #   export EDITOR='mvim'
 # fi
@@ -147,6 +172,31 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
+
+# Direnv
+eval "$(direnv hook zsh)"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+export PATH=${PATH}:${NVM_HOME}
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Autojump
+[[ -s /home/mcreenan/.autojump/etc/profile.d/autojump.sh ]] && source /home/mcreenan/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+
+export PATH=$HOME/bin:$PATH
+export TILT_REPO_ROOT="/home/mcreenan/r"
+# Make sure ssh-agent is running and default identity is added to it
+eval `ssh-agent -s | sed "/^echo/d"`;
+ssh-add -q;
+
+# Github copilot cli aliases
+command -v github-copilot-cli >/dev/null && eval "$(github-copilot-cli alias -- "$0")"
+# Enable torch shell completion
+# eval "$(_TORCH_COMPLETE=zsh_source torch)"
